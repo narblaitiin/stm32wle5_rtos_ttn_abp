@@ -64,7 +64,7 @@ int8_t main(void)
 
 		printk("sending random data...\n");
 		gpio_pin_set_dt(&led_tx, 1);
-		ret = lorawan_send(LORAWAN_PORT, payload, sizeof(payload), LORAWAN_MSG_UNCONFIRMED);
+		ret = lorawan_send(LORAWAN_PORT, payload, sizeof(payload), LORAWAN_MSG_CONFIRMED);
 		if (ret == -EAGAIN) {
 			printk("lorawan_send failed: %d. continuing...\n", ret);
 			k_sleep(DELAY);
