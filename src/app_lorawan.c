@@ -83,7 +83,7 @@ int8_t app_lorawan_init(const struct device *dev)
     join_cfg.abp.dev_addr = dev_addr;
     join_cfg.abp.app_skey = app_skey;
     join_cfg.abp.nwk_skey = nwk_skey;
-	join_cfg.dev_eui = dev_eui;
+	//join_cfg.dev_eui = dev_eui;
 
 	printk("joining TTN network over ABP\n");
 	do {
