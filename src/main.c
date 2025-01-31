@@ -15,6 +15,7 @@ struct values {
 	int16_t vbat;
 	int16_t temp;
 	int16_t hum;
+	int16_t vadc;
 };
 
 //  ======== main ===============================================
@@ -22,7 +23,7 @@ int8_t main(void)
 {
 	const struct device *dev;
 	struct values data;
-	uint8_t payload[7];
+	uint8_t payload[9];
     int8_t ret;
 
 	// configuration of LEDs
@@ -42,7 +43,8 @@ int8_t main(void)
 		data.vbat = sys_rand16_get() % (3300 - 0 + 1) + 0;
 		data.temp = -15 + sys_rand16_get() % (50 - 25 +1);
 		data.hum = sys_rand16_get() % (100 - 0 + 1) + 0;
-		printk("vbat: %"PRId16", temp: %"PRId16", hum: %"PRId16"\n", data.vbat, data.temp, data.hum);
+		data.vadc = sys_rand16_get() % (3300 - 0 + 1) + 0;
+		printk("vbat: %"PRId16", temp: %"PRId16", hum: %"PRId16"\n","vbat: %"PRId16"", data.vbat, data.temp, data.hum, data.vadc);
 		
 		// transmission of packets on lorawan protocole - encode payload to bytes
 		// battery needs 2 bytes
@@ -61,6 +63,10 @@ int8_t main(void)
 		// humidity needs 2 bytes
 		payload[5] = (data.hum >> 8) & 0xFF;
         payload[6] = data.hum & 0xFF;
+
+		// adc needs 2 bytes
+		payload[7] = (data.vbat >> 8) & 0xFF;
+        payload[8] = data.vbat & 0xFF;
 
 		printk("sending random data...\n");
 		gpio_pin_set_dt(&led_tx, 1);
