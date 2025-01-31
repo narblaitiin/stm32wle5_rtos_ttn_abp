@@ -40,7 +40,7 @@ int8_t app_lorawan_init(const struct device *dev)
     uint8_t dev_addr[] = LORAWAN_DEV_ADDR;
 	uint8_t app_skey[] = LORAWAN_APP_SKEY;
     uint8_t nwk_skey[] = LORAWAN_NWK_SKEY;
-	uint8_t dev_eui[]  = LORAWAN_DEV_EUI;
+	uint8_t app_eui[]  = LORAWAN_DEV_EUI;
 
 	printk("starting lorawan node\n");
     // getting lora sx1276 device
@@ -83,7 +83,7 @@ int8_t app_lorawan_init(const struct device *dev)
     join_cfg.abp.dev_addr = dev_addr;
     join_cfg.abp.app_skey = app_skey;
     join_cfg.abp.nwk_skey = nwk_skey;
-	//join_cfg.dev_eui = dev_eui;
+	join_cfg.abp.app_eui = app_eui;
 
 	printk("joining TTN network over ABP\n");
 	do {
