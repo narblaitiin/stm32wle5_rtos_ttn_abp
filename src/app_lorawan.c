@@ -88,6 +88,7 @@ int8_t app_lorawan_init(const struct device *dev)
 	printk("joining TTN network over ABP\n");
 	do {
 		gpio_pin_set_dt(&led_rx, 1);
+		
 		ret = lorawan_join(&join_cfg);
 		if (ret < 0) {
 	    	printk("lorawan join network failed. error: %d\n", ret);
