@@ -10,7 +10,7 @@ This application contains example code to allow testing of LoRaWAN Network Appli
     - Number of packets : forever loop
     - Number of nodes : 5
 
-LoRaWAN Device EUI, Join EUI and Application Key should be entered into the app_lorawan.h file prior to compiling. The example uses ABP type authentification. The version of Zephyr RTOS used is the version v3.6.0.
+LoRaWAN Device Address, Device EUI, Application Key and New Key should be entered into the app_lorawan.h file prior to compiling. The example uses ABP type authentification. The version of Zephyr RTOS used is the version v3.6.0.
 
 **Board used** : Original MAMWLExx board, powered by battery/solar panel. (see 6sens_project_stm32wl repository/hardware part, for more information.)
 
