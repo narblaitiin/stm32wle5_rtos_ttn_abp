@@ -44,7 +44,7 @@ int8_t main(void)
 		data.temp = -15 + sys_rand16_get() % (50 - 25 +1);
 		data.hum = sys_rand16_get() % (100 - 0 + 1) + 0;
 		data.vadc = sys_rand16_get() % (3300 - 0 + 1) + 0;
-		printk("vbat: %"PRId16", temp: %"PRId16", hum: %"PRId16"\n","vbat: %"PRId16"", data.vbat, data.temp, data.hum, data.vadc);
+		printk("vbat: %"PRId16", temp: %"PRId16", hum: %"PRId16", vadc: %"PRId16"\n", data.vbat, data.temp, data.hum, data.vadc);
 		
 		// transmission of packets on lorawan protocole - encode payload to bytes
 		// battery needs 2 bytes
@@ -65,8 +65,8 @@ int8_t main(void)
         payload[6] = data.hum & 0xFF;
 
 		// adc needs 2 bytes
-		payload[7] = (data.vbat >> 8) & 0xFF;
-        payload[8] = data.vbat & 0xFF;
+		payload[7] = (data.vadc >> 8) & 0xFF;
+        payload[8] = data.vadc & 0xFF;
 
 		printk("sending random data...\n");
 		gpio_pin_set_dt(&led_tx, 1);
@@ -79,7 +79,9 @@ int8_t main(void)
 		
 		if (ret < 0) {
 			printk("lorawan_send failed: %d.\n", ret);
-			return 0;
+			//return 0;
+			k_sleep(DELAY);
+			continue;
 		} else {
 			// flashing of the LED when a packet is transmitted
 			gpio_pin_set_dt(&led_tx, 0);
