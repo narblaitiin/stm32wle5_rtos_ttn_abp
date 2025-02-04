@@ -42,6 +42,11 @@ int8_t app_lorawan_init(const struct device *dev)
     uint8_t nwk_skey[] = LORAWAN_NWK_SKEY;
 	uint8_t app_eui[]  = LORAWAN_DEV_EUI;
 
+	char lorawan_dev_addr[4 * 2 + 1] = "";
+	char lorawan_app_skey[16 * 2 + 1] = "";
+	char lorawan_nwk_skey[16 * 2 + 1] = "";
+	char lorawan_app_eui[16 * 2 + 1] = "";
+
 	printk("starting lorawan node\n");
     // getting lora sx1276 device
 	dev = DEVICE_DT_GET(DT_ALIAS(lora0));
@@ -78,6 +83,11 @@ int8_t app_lorawan_init(const struct device *dev)
 	lorawan_register_downlink_callback(&downlink_cb);
 	lorawan_register_dr_changed_callback(lorwan_datarate_changed);  
 
+	hex2bin(lorawan_app_skey, strlen(lorawan_app_skey), app_skey, sizeof(app_skey));
+    hex2bin(lorawan_nwk_skey, strlen(lorawan_nwk_skey), nwk_skey, sizeof(nwk_skey));
+	hex2bin(lorawan_app_eui, strlen(lorawan_app_eui), nwk_skey, sizeof(app_eui));
+    hex2bin(lorawan_dev_addr, strlen(lorawan_dev_addr), (uint8_t *)&dev_addr, sizeof(dev_addr));
+
 	// configuration of lorawan parameters 
     join_cfg.mode = LORAWAN_ACT_ABP;
     join_cfg.abp.dev_addr = dev_addr;
@@ -98,6 +108,8 @@ int8_t app_lorawan_init(const struct device *dev)
 		}
 		gpio_pin_set_dt(&led_rx, 1);
 	} while (ret < 0);
+
+
 
 	printk("setting device to class A\n");
 	ret = lorawan_set_class(LORAWAN_CLASS_A);
